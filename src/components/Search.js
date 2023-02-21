@@ -13,7 +13,10 @@ const Search = ({ setExercises, bodyPart, setBodyPart }) => {
     const fetchExercisesData = async () => {
       const bodyPartsData = await fetchData('https://api.api-ninjas.com/v1/exercises?muscle=', excerciseOptions)
 
-      setBodyParts([...bodyPartsData])
+      const parsedBodyParts = bodyPartsData.map(item => item.muscle)
+
+
+      setBodyParts([...parsedBodyParts])
 
     }
 
@@ -22,8 +25,7 @@ const Search = ({ setExercises, bodyPart, setBodyPart }) => {
 
   const handleSearch = async () => {
     if (search) {
-      const exercisesData = await fetchData
-        ('https://api.api-ninjas.com/v1/exercises', excerciseOptions);
+      const exercisesData = await fetchData('https://api.api-ninjas.com/v1/exercises', excerciseOptions);
 
       const searchedExercises = exercisesData.filter((exercise) => exercise.name.toLowerCase().includes(search)
         || exercise.target.toLowerCase().includes(search)
@@ -83,7 +85,7 @@ const Search = ({ setExercises, bodyPart, setBodyPart }) => {
         </Button>
       </Box>
       <Box sx={{ position: 'relative', width: '100%', p: '20px' }}>
-        <HorizontalScrollbar data={bodyParts} bodyPart={bodyPart} setBodyPart={setBodyPart} />
+        <HorizontalScrollbar data={bodyParts} bodyParts setBodyPart={setBodyPart} bodyPart={bodyPart} />
       </Box>
     </Stack>
   )
