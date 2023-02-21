@@ -13,7 +13,8 @@ const Search = ({ setExercises, bodyPart, setBodyPart }) => {
     const fetchExercisesData = async () => {
       const bodyPartsData = await fetchData('https://api.api-ninjas.com/v1/exercises?muscle=', excerciseOptions)
 
-      setBodyParts(['all', ...bodyPartsData])
+      setBodyParts([...bodyPartsData])
+
     }
 
     fetchExercisesData()
@@ -32,10 +33,12 @@ const Search = ({ setExercises, bodyPart, setBodyPart }) => {
 
       setSearch(' ')
       setExercises(searchedExercises)
-    }
-  }
 
+    }
+
+  }
   return (
+
     <Stack alignItems='center' mt='37px' justifyContent='center' p='20px'>
       <Typography fontWeight={700} sx={{
         fontsize: { lg: '44px', xs: '30px' }
