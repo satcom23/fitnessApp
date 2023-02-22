@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  background-color: #555555;
+}
+
 .hero-banner-img {
   position: absolute;
   right: 40px;
@@ -36,5 +41,13 @@
     width: 320px;
     height: 300px;
   }
+
+}
+
+.mainApp {
+  background-color: #555555;
+  margin: 0;
+  padding: 0;
+  border: 0;
 
 }
