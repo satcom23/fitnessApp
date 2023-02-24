@@ -26,7 +26,13 @@ body {
 
   .left-arrow,
   .right-arrow {
+    /* display: flex; */
     position: static !important;
+    cursor: 'pointer';
+    background: 'none';
+    border: 'none';
+    padding: 0;
+    margin: 0;
   }
 
   .hero-banner-img {
