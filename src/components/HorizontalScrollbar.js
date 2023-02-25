@@ -28,18 +28,13 @@ const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => {
     const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
     const handleClick = () => {
       if (!isLastItemVisible) {
-        setPosition((prevPosition) => prevPosition + 100);
         scrollNext();
         console.log(position)
 
       }
     };
-
     return (
       <button
-        // sx={{
-        //   cursor: 'pointer'
-        // }}
         onClick={handleClick}
         className="right-arrow"
         disabled={isLastItemVisible}>
@@ -72,9 +67,8 @@ const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => {
     )
   }
 
-  return
+  // return
   //  (
-  //   <ScrollContainer>
   //     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} selected={selected} isItemSelected={isItemSelected} translate={position}>
   //       {muscleGroup.map((item) => (
   //         <Box
@@ -89,8 +83,6 @@ const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => {
   //         </Box>
   //       ))}
   //     </ScrollMenu>
-  //   </ScrollContainer>
-
   // )
 };
 

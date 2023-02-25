@@ -1,15 +1,21 @@
 import React from 'react';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import ExerciseCard from './ExerciseCard';
+import BodyPart from './BodyPart';
+import { Typography } from '@mui/material';
 
-const muscleGroup = ['Forearms', 'Quadriceps', 'Abdominals', 'Lats', 'Middle Back', 'Lower Back', 'Shoulders', 'Biceps']
+import RightArrowIcon from '../assets/icons/right-arrow.png';
+import LeftArrowIcon from '../assets/icons/left-arrow.png';
+
+import "./hideScrollbar.css";
+
+
+const muscleGroup = ['Forearms', 'Quadriceps', 'Abdominals', 'Lats', 'Middle Back', 'Lower Back', 'Shoulders', 'Biceps'];
 const getItems = () =>
   muscleGroup
-    .fill(0)
-    .map((_, ind) => ({ id: `element-${ind}` }));
+    .map((muscle, ind) => ({ id: `element-${ind}`, muscle }));
 
-
-
-function Categories() {
+function Categories({ data, bodyParts, setBodyPart, bodyPart }) {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
   const [position, setPosition] = React.useState(0);
@@ -27,18 +33,19 @@ function Categories() {
             : currentSelected.concat(id)
         );
       };
-
+  console.log(items)
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-      {items.map(({ id }) => (
+      {items.map(({ muscle, id }) => (
         <Card
           itemId={id} // NOTE: itemId is required for track items
-          title={id}
+          title={muscle}
           key={id}
           onClick={handleClick(id)}
           selected={isItemSelected(id)}
         />
       ))}
+
     </ScrollMenu>
   );
 }
@@ -48,9 +55,9 @@ function LeftArrow() {
     React.useContext(VisibilityContext);
 
   return (
-    <button disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      Left
-    </button>
+    <Typography disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+      <img src={LeftArrowIcon} alt="right-arrow" />
+    </Typography>
   );
 }
 
@@ -58,34 +65,35 @@ function RightArrow() {
   const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
 
   return (
-    <button disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      Right
-    </button>
+    <Typography disabled={isLastItemVisible} onClick={() => scrollNext()}>
+      <img src={RightArrowIcon} alt="right-arrow" />
+    </Typography>
   );
 }
 
-function Card({ onClick, selected, title, itemId }) {
+function Card({ onClick, selected, title, itemId, bodyParts, setBodyPart, bodyPart }) {
   const visibility = React.useContext(VisibilityContext);
 
   return (
+
     <div
       onClick={() => onClick(visibility)}
       style={{
-        width: '160px',
+        width: '360px',
       }}
       tabIndex={0}
     >
+      {/* {console.log(title)} */}
       <div className="card">
-        <div>{title}</div>
-        <div>visible: {JSON.stringify(!!visibility.isItemVisible(itemId))}</div>
-        <div>selected: {JSON.stringify(!!selected)}</div>
+        <BodyPart item={title} setBodyPart={setBodyPart} bodyPart={bodyPart} />
       </div>
-      <div
+      {/* <div
         style={{
           height: '200px',
         }}
-      />
+      /> */}
     </div>
+
   );
 }
 
