@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import ExerciseCard from './ExerciseCard';
 import BodyPart from './BodyPart';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 import RightArrowIcon from '../assets/icons/right-arrow.png';
 import LeftArrowIcon from '../assets/icons/left-arrow.png';
@@ -15,35 +15,41 @@ const getItems = () =>
   muscleGroup
     .map((muscle, ind) => ({ id: `element-${ind}`, muscle }));
 
+
+
+
 function Categories({ data, bodyParts, setBodyPart, bodyPart }) {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
   const [position, setPosition] = React.useState(0);
 
-  const isItemSelected = (id) => !!selected.find((el) => el === id);
+  // const isItemSelected = (id) => !!selected.find((el) => el === id);
 
-  const handleClick =
-    (id) =>
-      ({ getItemById, scrollToItem }) => {
-        const itemSelected = isItemSelected(id);
+  // const handleClick =
+  //   (id) =>
+  //     ({ getItemById, scrollToItem }) => {
+  //       const itemSelected = isItemSelected(id);
 
-        setSelected((currentSelected) =>
-          itemSelected
-            ? currentSelected.filter((el) => el !== id)
-            : currentSelected.concat(id)
-        );
-      };
-  console.log(items)
+  //       setSelected((currentSelected) =>
+  //         itemSelected
+  //           ? currentSelected.filter((el) => el !== id)
+  //           : currentSelected.concat(id)
+  //       );
+  //     };
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
       {items.map(({ muscle, id }) => (
-        <Card
+        <Box
           itemId={id} // NOTE: itemId is required for track items
           title={muscle}
           key={id}
-          onClick={handleClick(id)}
-          selected={isItemSelected(id)}
-        />
+          m="0 40px"
+        // onClick={handleClick(id)}
+        // selected={isItemSelected(id)}
+        >
+          {items ?(<BodyPart item={muscle} setBodyPart={setBodyPart} bodyPart={bodyPart} />)
+            : (<ExerciseCard exercise={muscle} />)}
+        </Box>
       ))}
 
     </ScrollMenu>
@@ -55,9 +61,9 @@ function LeftArrow() {
     React.useContext(VisibilityContext);
 
   return (
-    <Typography disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+    <button className='left-arrow' disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
       <img src={LeftArrowIcon} alt="right-arrow" />
-    </Typography>
+    </button>
   );
 }
 
@@ -65,34 +71,32 @@ function RightArrow() {
   const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
 
   return (
-    <Typography disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      <img src={RightArrowIcon} alt="right-arrow" />
-    </Typography>
+    <button className='right-arrow' disabled={isLastItemVisible} onClick={() => scrollNext()}>
+      <img src={RightArrowIcon} alt="left-arrow" />
+    </button>
   );
 }
 
 function Card({ onClick, selected, title, itemId, bodyParts, setBodyPart, bodyPart }) {
-  const visibility = React.useContext(VisibilityContext);
+
+  // const visibility = React.useContext(VisibilityContext);
 
   return (
 
+    // <div
+    //   onClick={() => onClick(visibility)}
+
+    // >
     <div
-      onClick={() => onClick(visibility)}
+      // tabIndex={0}
       style={{
-        width: '360px',
+        width: '460px',
       }}
-      tabIndex={0}
-    >
-      {/* {console.log(title)} */}
-      <div className="card">
-        <BodyPart item={title} setBodyPart={setBodyPart} bodyPart={bodyPart} />
-      </div>
-      {/* <div
-        style={{
-          height: '200px',
-        }}
-      /> */}
+      className="card">
+      <BodyPart item={title} bodyParts={bodyParts} setBodyPart={setBodyPart} bodyPart={bodyPart} />
     </div>
+
+    // </div>
 
   );
 }

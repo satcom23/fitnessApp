@@ -4,36 +4,25 @@ import HorizontalScrollbar from './HorizontalScrollbar'
 
 import { excerciseOptions, fetchData } from '../utils/fetchData'
 import Categories from './Categories'
+import Exercises from './Exercises'
 
 
-const Search = ({ setExercises, bodyPart, setBodyPart }) => {
+const Search = ({ setExercises, bodyPart, setBodyPart, bodyParts }) => {
   const [search, setSearch] = useState('')
-  const [bodyParts, setBodyParts] = useState([])
 
-  useEffect(() => {
-    const fetchExercisesData = async () => {
-      const bodyPartsData = await fetchData('https://api.api-ninjas.com/v1/exercises?muscle=', excerciseOptions)
-
-      const parsedBodyParts = bodyPartsData.map(item => item.muscle)
-
-
-      setBodyParts([...parsedBodyParts])
-
-    }
-
-    fetchExercisesData()
-  }, [])
 
   const handleSearch = async () => {
     if (search) {
       const exercisesData = await fetchData('https://api.api-ninjas.com/v1/exercises', excerciseOptions);
 
-      const searchedExercises = exercisesData.filter((exercise) => exercise.name.toLowerCase().includes(search)
-        || exercise.target.toLowerCase().includes(search)
-        || exercise.equipment.toLowerCase().includes(search)
-        || exercise.bodyPart.toLowerCase().includes(search)
+      const searchedExercises = exercisesData.filter(
+        (exercise) =>
+          exercise.name.toLowerCase().includes(search) ||
+          exercise.muscle.toLowerCase().includes(search) ||
+          exercise.equipment.toLowerCase().includes(search) ||
+          exercise.type.toLowerCase().includes(search) ||
+          exercise.difficulty.toLowerCase().includes(search)
       )
-
       setSearch(' ')
       setExercises(searchedExercises)
 
